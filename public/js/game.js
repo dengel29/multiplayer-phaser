@@ -69,7 +69,7 @@ function update(){
             this.ship.setAcceleration(0)
         }
         // wraps the world, so if you pass of the top you can come back on the bottom, and so on
-        // this.physics.world.wrap() 
+        this.physics.world.wrap(this.ship) 
     }
     
 }

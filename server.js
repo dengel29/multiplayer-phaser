@@ -16,7 +16,7 @@ io.on('connection', function(socket){
         rotation: 0,
         x: Math.floor(Math.random()* 700) + 50,
         y: Math.floor(Math.random()* 500) + 50,
-        plaeyerId: socket.id,
+        playerId: socket.id,
         team: (Math.floor(Math.random() * 2) == 0) ? 'red': 'blue'
     };
     socket.emit('currentPlayers', players)

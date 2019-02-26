@@ -27,6 +27,14 @@ io.on('connection', function(socket){
         delete players[socket.id];
         io.emit('disconnect', socket.id)
     })
+
+    socket.on('playerMovement', function(movementData){
+        players[socket.id].x = movementData.x;
+        players[socket.id].y = movementData.y;
+        players[socket.id].rotation = movementData.rotation;
+
+        socket.broadcast.emit('playerMoved', players[socket.id])
+    })
 })
 
 server.listen(8081, function(){

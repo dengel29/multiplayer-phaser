@@ -50,7 +50,15 @@ function create(){
         })
     });
     this.cursors = this.input.keyboard.createCursorKeys();
-    // console.log(this.physics.world)
+    
+    this.socket.on('playerMoved', function(playerInfo){
+        self.otherPlayers.getChildren().forEach(function(otherPlayer) {
+            if (playerInfo.playerId === otherPlayer.playerId) {
+                otherPlayer.setRotation(playerInfo.rotation);
+                otherPlayer.setPosition(playerInfo.x, playerInfo.y)
+            }
+        })
+    })
 }
 
 function update(){
@@ -70,6 +78,23 @@ function update(){
         }
         // wraps the world, so if you pass of the top you can come back on the bottom, and so on
         this.physics.world.wrap(this.ship) 
+
+        var x = this.ship.x;
+        var y = this.ship.y;
+        var r = this.ship.rotation;
+        if (this.ship.oldPosition && (x !== this.ship.oldPosition || y !== this.ship.oldPosition.y || r !== this.ship.oldPosition.rotation)) {
+            this.socket.emit('playerMovement', {
+                x: this.ship.x,
+                y: this.ship.y,
+                rotation: this.ship.rotation
+            })
+        }
+    
+        this.ship.oldPosition = {
+            x: this.ship.x,
+            y: this.ship.y,
+            rotation: this.ship.rotation
+        }
     }
     
 }
